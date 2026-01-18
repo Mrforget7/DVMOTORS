@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RNMOTORS - Gestión de Taller</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    
+    <div id="auth-modal" class="modal initial-screen open">
+        <div class="modal-content auth-modal-bg">
+            <div class="modal-header-login">
+                <img src="images/logo.jpg" alt="Logo RNMOTORS" class="login-logo">
+                <h3 id="auth-modal-title">RNMOTORS</h3>
+            </div>
+            
+            <div class="modal-tabs">
+                <div class="modal-tab active" data-content="login-content">Iniciar Sesión</div>
+                <div class="modal-tab" data-content="register-content">Registrarse</div>
+            </div>
+            
+            <div id="login-content" class="tab-content active">
+                <form id="login-form">
+                    <div class="form-group">
+                        <input type="email" id="login-email" placeholder="Correo Electrónico" required>
+                    </div>
+                    <div class="form-group password-wrapper">
+                        <input type="password" id="login-password" placeholder="Contraseña" required>
+                        <button type="button" class="toggle-password" data-target="login-password">
+                            <i class="fas fa-eye"></i>
+                        </button>
+                    </div>
+                    <button type="submit" class="btn" style="width: 100%;">Entrar</button>
+                </form>
+            </div>
+
+            <div id="register-content" class="tab-content">
+                <form id="register-form">
+                    <div class="form-group">
+                        <input type="text" id="reg-username" placeholder="Nombre de Usuario" required>
+                    </div>
+                    <div class="form-group">
+                        <input type="text" id="reg-vehiculo" placeholder="Vehículo que posee (Marca/Modelo)" required>
+                    </div>
+                    <div class="form-group">
+                        <input type="email" id="reg-email" placeholder="Correo Electrónico" required>
+                    </div>
+                    <div class="form-group password-wrapper">
+                        <input type="password" id="reg-password" placeholder="Contraseña" required>
+                        <button type="button" class="toggle-password" data-target="reg-password">
+                            <i class="fas fa-eye"></i>
+                        </button>
+                    </div>
+                    <button type="submit" class="btn btn-accent" style="width: 100%;">Registrarse</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal para notificaciones -->
+    <div id="notification-modal" class="notification-modal">
+        <div class="notification-content">
+            <div class="notification-icon">
+                <i class="fas fa-check-circle"></i>
+            </div>
+            <h3>Acción Completada</h3>
+            <p id="notification-message"></p>
+            <button onclick="closeNotification()" class="btn btn-success">Aceptar</button>
+        </div>
+    </div>
+
+    <!-- Modal para perfil de usuario -->
+    <div id="profile-modal" class="profile-modal">
+        <div class="profile-modal-content">
+            <div class="profile-header">
+                <h3>Mi Perfil</h3>
+                <button onclick="closeProfileModal()" class="close-profile-btn">&times;</button>
+            </div>
+            <div class="profile-body">
+                <div class="profile-photo-section">
+                    <div class="current-photo-container">
+                        <img id="profile-current-photo" src="" alt="Foto de perfil" class="profile-photo-img">
+                    </div>
+                    <input type="file" id="profile-photo-input" accept="image/*" style="display: none;">
+                    <button onclick="document.getElementById('profile-photo-input').click()" class="btn btn-small">
+                        <i class="fas fa-camera"></i> Cambiar foto
+                    </button>
+                </div>
+                <div class="profile-info-form">
+                    <div class="form-group">
+                        <label>Nombre de Usuario</label>
+                        <input type="text" id="profile-username" value="">
+                    </div>
+                    <div class="form-group">
+                        <label>Correo Electrónico</label>
+                        <input type="email" id="profile-email" value="">
+                    </div>
+                    <div class="form-group">
+                        <label>Vehículo</label>
+                        <input type="text" id="profile-vehiculo" value="">
+                    </div>
+                    <button onclick="updateProfile()" class="btn btn-success" style="width: 100%; margin-top: 20px;">
+                        <i class="fas fa-save"></i> Guardar Cambios
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="sidebar" class="sidebar">
+        <div class="sidebar-header">
+            <h3>Mecánicos del Taller</h3>
+            <button id="close-sidebar" class="close-btn">&times;</button>
+        </div>
+        <div id="mechanics-list" class="sidebar-body">
+            <!-- Los mecánicos se cargarán aquí dinámicamente -->
+        </div>
+        
+        <div id="admin-mech-tools" class="admin-only" style="display:none; padding: 15px; border-top: 1px solid #444;">
+            <h4>Añadir Nuevo Mecánico</h4>
+            <div class="admin-form">
+                <input type="text" id="new-mech-name" placeholder="Nombre completo" class="admin-input">
+                <input type="number" id="new-mech-age" placeholder="Edad" class="admin-input">
+                <label style="font-size: 0.8rem; margin-top: 5px; display: block;">Foto de perfil:</label>
+                <input type="file" id="new-mech-photo" accept="image/*" class="admin-input">
+                <button onclick="addNewMechanic()" class="btn btn-success" style="width:100%; margin-top:10px;">
+                    <i class="fas fa-user-plus"></i> Agregar Mecánico
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <div id="main-content-wrapper" style="display:none;">
+        <header>
+            <div class="container">
+                <div class="header-content">
+                    <div class="header-left">
+                        <button id="open-sidebar" class="menu-btn">☰</button>
+                        <div class="logo">
+                            <img src="images/logo.jpg" alt="Logo" class="logo-img">
+                            <h1>RNMOTORS</h1>
+                        </div>
+                    </div>
+                    
+                    <nav>
+                        <ul>
+                            <li><a href="#inicio">Inicio</a></li>
+                            <li class="client-only"><a href="#reservar">Reservar</a></li>
+                            <li class="client-only"><a href="#mis-citas">Mis Citas</a></li>
+                            <li class="admin-only" style="display:none;"><a href="#admin-panel">Panel Citas</a></li>
+                            <li class="admin-only" style="display:none;"><a href="#admin-users">Usuarios</a></li>
+                        </ul>
+                    </nav>
+
+                    <div class="header-right">
+                        <button id="dark-mode-toggle" class="mode-btn">🌙</button>
+                        
+                        <div class="user-profile-container">
+                            <div class="user-avatar" onclick="openProfileModal()" title="Ver perfil">
+                                <img id="user-avatar-img" src="https://via.placeholder.com/40" alt="Avatar" class="avatar-img">
+                            </div>
+                            <div class="user-info-box">
+                                <span id="display-user-name" style="font-weight: bold;"></span>
+                                <small id="display-user-email"></small>
+                            </div>
+                        </div>
+                        
+                        <button id="logout-btn" class="logout-minimal">Salir</button>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <div id="client-view">
+            <section id="inicio" class="hero">
+                <div class="container">
+                    <div class="hero-content">
+                        <div class="hero-text">
+                            <h2>Mecánica de Precisión para tu Vehículo</h2>
+                            <p>Con más de 15 años de experiencia, en RNMOTORS nos especializamos en reparación y mantenimiento automotriz de calidad. Utilizamos tecnología de última generación y repuestos originales para garantizar el mejor servicio.</p>
+                            <p><strong>Horario:</strong> Lunes a Viernes 8:00 AM - 6:00 PM, Sábados 9:00 AM - 2:00 PM</p>
+                            <p><strong>Teléfono:</strong> (555) 123-4567 | <strong>Dirección:</strong> Av. Principal #123, Ciudad</p>
+                            <a href="#reservar" class="btn">Agendar Cita Ahora</a>
+                        </div>
+                        <div class="hero-image">
+                            <img src="https://images.unsplash.com/photo-1549399542-7e3f8b79c341?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Taller Mecánico RNMOTORS">
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section id="funcionalidades">
+                <div class="container">
+                    <div class="section-title"><h2>¿Por qué elegir RNMOTORS?</h2></div>
+                    <div class="features-grid-3x2">
+                        <div class="feature-row">
+                            <div class="feature-item-static">
+                                <h3>Diagnóstico Avanzado</h3>
+                                <p>Escaneo electrónico preciso para detectar fallas en segundos.</p>
+                            </div>
+                            <div class="feature-item-static">
+                                <h3>Garantía de Servicio</h3>
+                                <p>Todos nuestros trabajos cuentan con respaldo por escrito.</p>
+                            </div>
+                            <div class="feature-item-static">
+                                <h3>Precios Justos</h3>
+                                <p>Presupuestos transparentes antes de iniciar cualquier labor.</p>
+                            </div>
+                        </div>
+                        <div class="feature-row">
+                            <div class="feature-item-static">
+                                <h3>Atención Personalizada</h3>
+                                <p>Un asesor dedicado te explicará cada detalle de tu vehículo.</p>
+                            </div>
+                            <div class="feature-item-static">
+                                <h3>Repuestos de Calidad</h3>
+                                <p>Solo instalamos piezas certificadas por los fabricantes.</p>
+                            </div>
+                            <div class="feature-item-static">
+                                <h3>Historial Digital</h3>
+                                <p>Accede al registro de todos los mantenimientos de tu coche.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section id="reservar">
+                <div class="container">
+                    <div class="section-title"><h2>Agendar mi Cita</h2></div>
+                    <div class="form-table-container">
+                        <form id="reservation-form">
+                            <table class="appointment-table">
+                                <tr>
+                                    <td><label>Nombre Completo</label></td>
+                                    <td><input type="text" id="res-name" required placeholder=""></td>
+                                </tr>
+                                <tr>
+                                    <td><label>Teléfono</label></td>
+                                    <td><input type="tel" id="res-phone" required placeholder=""></td>
+                                </tr>
+                                <tr>
+                                    <td><label>Correo Electrónico</label></td>
+                                    <td><input type="email" id="res-email" required placeholder=""></td>
+                                </tr>
+                                <tr>
+                                    <td><label>Fecha Preferida</label></td>
+                                    <td><input type="date" id="res-date" required></td>
+                                </tr>
+                                <tr>
+                                    <td><label>Descripción del Problema</label></td>
+                                    <td><textarea id="res-desc" rows="3" placeholder=""></textarea></td>
+                                </tr>
+                                <tr>
+                                    <td colspan="2" style="text-align: center; padding-top: 20px;">
+                                        <button type="submit" class="btn btn-accent" style="padding: 12px 40px; font-size: 1.1rem;">Enviar Solicitud de Cita</button>
+                                    </td>
+                                </tr>
+                            </table>
+                        </form>
+                    </div>
+                </div>
+            </section>
+
+            <section id="mis-citas" class="client-only">
+                <div class="container">
+                    <div class="section-title"><h2>Mis Citas Realizadas</h2></div>
+                    <div class="table-container">
+                        <table class="user-appointments-table">
+                            <thead>
+                                <tr>
+                                    <th>Fecha</th>
+                                    <th>Vehículo</th>
+                                    <th>Descripción</th>
+                                    <th>Estado</th>
+                                </tr>
+                            </thead>
+                            <tbody id="user-appointments-list">
+                                <!-- Las citas se cargarán aquí dinámicamente -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <div id="admin-view" style="display:none;">
+            <section id="admin-panel">
+                <div class="container">
+                    <div class="section-title"><h2>Panel de Administración de Citas</h2></div>
+                    <div class="table-container">
+                        <table class="admin-table">
+                            <thead>
+                                <tr>
+                                    <th>Cliente</th>
+                                    <th>Vehículo</th>
+                                    <th>Contacto</th>
+                                    <th>Fecha</th>
+                                    <th>Descripción</th>
+                                    <th>Estado</th>
+                                    <th>Acciones</th>
+                                </tr>
+                            </thead>
+                            <tbody id="admin-appointments-table">
+                                <!-- Las citas se cargarán aquí dinámicamente -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+
+            <section id="admin-users" class="admin-only">
+                <div class="container">
+                    <div class="section-title"><h2>Gestión de Usuarios</h2></div>
+                    <div class="table-container">
+                        <table class="admin-table">
+                            <thead>
+                                <tr>
+                                    <th>Nombre</th>
+                                    <th>Correo</th>
+                                    <th>Vehículo</th>
+                                    <th>Fecha Registro</th>
+                                    <th>Acciones</th>
+                                </tr>
+                            </thead>
+                            <tbody id="admin-users-table">
+                                <!-- Los usuarios se cargarán aquí dinámicamente -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <footer>
+            <div class="container">
+                <p>&copy; 2025 RNMOTORS - Todos los derechos reservados.</p>
+            </div>
+        </footer>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
