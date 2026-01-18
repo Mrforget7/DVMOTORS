@@ -86,6 +86,7 @@ function getDefaultMechanics() {
         }
     ];
 }
+
 function initializeData() {
     const data = loadCloudData();
     
@@ -665,14 +666,18 @@ function renderMechanics() {
     }
 
     data.mechanics.forEach(m => {
+        const photoSrc = m.photo || `https://ui-avatars.com/api/?name=${encodeURIComponent(m.name)}&background=ff5722&color=fff&size=70`;
+        
         const card = document.createElement('div');
         card.className = 'mech-card';
         card.innerHTML = `
             <div class="mech-card-header">
-                <img src="${m.photo}" class="mech-photo-img" onerror="this.src='https://ui-avatars.com/api/?name=${encodeURIComponent(m.name)}&background=ff5722&color=fff&size=70'">
+                <img src="${photoSrc}" class="mech-photo-img" 
+                     onerror="this.src='https://ui-avatars.com/api/?name=${encodeURIComponent(m.name)}&background=ff5722&color=fff&size=70'">
                 <div class="mech-info">
                     <h4>${m.name}</h4>
                     <p><i class="fas fa-birthday-cake"></i> ${m.age} años</p>
+                    <span class="mech-role">Mecánico Especializado</span>
                     <div class="stars-display">
                         ${"★".repeat(Math.floor(m.rating))}${"☆".repeat(5-Math.floor(m.rating))} 
                         <span class="rating-number">${m.rating.toFixed(1)} (${m.voters})</span>
