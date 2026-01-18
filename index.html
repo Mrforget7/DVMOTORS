@@ -3,17 +3,20 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>RNMOTORS - Gestión de Taller</title>
+    <title>DVMOTORS - Gestión de Taller</title>
     <link rel="stylesheet" href="styles.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="icon" type="image/x-icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🔧</text></svg>">
 </head>
 <body>
     
     <div id="auth-modal" class="modal initial-screen open">
         <div class="modal-content auth-modal-bg">
             <div class="modal-header-login">
-                <img src="images/logo.jpg" alt="Logo RNMOTORS" class="login-logo">
-                <h3 id="auth-modal-title">RNMOTORS</h3>
+                <div class="login-logo-placeholder">
+                    <i class="fas fa-car"></i>
+                </div>
+                <h3 id="auth-modal-title">DVMOTORS</h3>
             </div>
             
             <div class="modal-tabs">
@@ -34,6 +37,10 @@
                     </div>
                     <button type="submit" class="btn" style="width: 100%;">Entrar</button>
                 </form>
+                <div style="margin-top: 20px; color: rgba(255,255,255,0.8); font-size: 0.9rem;">
+                    <p><strong>Admin:</strong> admin@dvmotors.com / admin123</p>
+                    <p><strong>Cliente demo:</strong> cliente@demo.com / demo123</p>
+                </div>
             </div>
 
             <div id="register-content" class="tab-content">
@@ -42,7 +49,7 @@
                         <input type="text" id="reg-username" placeholder="Nombre de Usuario" required>
                     </div>
                     <div class="form-group">
-                        <input type="text" id="reg-vehiculo" placeholder="Vehículo que posee (Marca/Modelo)" required>
+                        <input type="text" id="reg-vehiculo" placeholder="Vehículo (Marca/Modelo)" required>
                     </div>
                     <div class="form-group">
                         <input type="email" id="reg-email" placeholder="Correo Electrónico" required>
@@ -95,7 +102,10 @@
                     </div>
                     <div class="form-group">
                         <label>Correo Electrónico</label>
-                        <input type="email" id="profile-email" value="">
+                        <div class="email-display">
+                            <i class="fas fa-envelope"></i>
+                            <span id="profile-email-display"></span>
+                        </div>
                     </div>
                     <div class="form-group">
                         <label>Vehículo</label>
@@ -111,19 +121,19 @@
 
     <div id="sidebar" class="sidebar">
         <div class="sidebar-header">
-            <h3>Mecánicos del Taller</h3>
+            <h3><i class="fas fa-user-cog"></i> Mecánicos del Taller</h3>
             <button id="close-sidebar" class="close-btn">&times;</button>
         </div>
         <div id="mechanics-list" class="sidebar-body">
             <!-- Los mecánicos se cargarán aquí dinámicamente -->
         </div>
         
-        <div id="admin-mech-tools" class="admin-only" style="display:none; padding: 15px; border-top: 1px solid #444;">
-            <h4>Añadir Nuevo Mecánico</h4>
+        <div id="admin-mech-tools" class="admin-only" style="display:none; padding: 15px; background: #f8f9fa;">
+            <h4><i class="fas fa-user-plus"></i> Añadir Nuevo Mecánico</h4>
             <div class="admin-form">
-                <input type="text" id="new-mech-name" placeholder="Nombre completo" class="admin-input">
-                <input type="number" id="new-mech-age" placeholder="Edad" class="admin-input">
-                <label style="font-size: 0.8rem; margin-top: 5px; display: block;">Foto de perfil:</label>
+                <input type="text" id="new-mech-name" placeholder="Nombre completo" class="admin-input" style="color: #333;">
+                <input type="number" id="new-mech-age" placeholder="Edad" class="admin-input" style="color: #333;">
+                <label style="font-size: 0.9rem; margin-top: 5px; display: block; color: #333;">Foto de perfil:</label>
                 <input type="file" id="new-mech-photo" accept="image/*" class="admin-input">
                 <button onclick="addNewMechanic()" class="btn btn-success" style="width:100%; margin-top:10px;">
                     <i class="fas fa-user-plus"></i> Agregar Mecánico
@@ -137,20 +147,22 @@
             <div class="container">
                 <div class="header-content">
                     <div class="header-left">
-                        <button id="open-sidebar" class="menu-btn">☰</button>
+                        <button id="open-sidebar" class="menu-btn"><i class="fas fa-users"></i></button>
                         <div class="logo">
-                            <img src="images/logo.jpg" alt="Logo" class="logo-img">
-                            <h1>RNMOTORS</h1>
+                            <div class="logo-placeholder">
+                                <i class="fas fa-car"></i>
+                            </div>
+                            <h1 class="logo-text">DVMOTORS</h1>
                         </div>
                     </div>
                     
-                    <nav>
+                    <nav class="nav-menu">
                         <ul>
-                            <li><a href="#inicio">Inicio</a></li>
-                            <li class="client-only"><a href="#reservar">Reservar</a></li>
-                            <li class="client-only"><a href="#mis-citas">Mis Citas</a></li>
-                            <li class="admin-only" style="display:none;"><a href="#admin-panel">Panel Citas</a></li>
-                            <li class="admin-only" style="display:none;"><a href="#admin-users">Usuarios</a></li>
+                            <li><a href="#inicio"><i class="fas fa-home"></i> <span class="nav-text">Inicio</span></a></li>
+                            <li class="client-only"><a href="#reservar"><i class="fas fa-calendar-plus"></i> <span class="nav-text">Reservar</span></a></li>
+                            <li class="client-only"><a href="#mis-citas"><i class="fas fa-history"></i> <span class="nav-text">Mis Citas</span></a></li>
+                            <li class="admin-only" style="display:none;"><a href="#admin-panel"><i class="fas fa-clipboard-list"></i> <span class="nav-text">Citas</span></a></li>
+                            <li class="admin-only" style="display:none;"><a href="#admin-users"><i class="fas fa-user-friends"></i> <span class="nav-text">Usuarios</span></a></li>
                         </ul>
                     </nav>
 
@@ -159,7 +171,7 @@
                         
                         <div class="user-profile-container">
                             <div class="user-avatar" onclick="openProfileModal()" title="Ver perfil">
-                                <img id="user-avatar-img" src="https://via.placeholder.com/40" alt="Avatar" class="avatar-img">
+                                <img id="user-avatar-img" src="https://ui-avatars.com/api/?name=Usuario&background=3f51b5&color=fff" alt="Avatar" class="avatar-img">
                             </div>
                             <div class="user-info-box">
                                 <span id="display-user-name" style="font-weight: bold;"></span>
@@ -167,11 +179,31 @@
                             </div>
                         </div>
                         
-                        <button id="logout-btn" class="logout-minimal">Salir</button>
+                        <button id="logout-btn" class="logout-minimal"><i class="fas fa-sign-out-alt"></i> <span class="logout-text">Salir</span></button>
                     </div>
+                    
+                    <!-- Menú hamburguesa para móvil -->
+                    <button id="mobile-menu-btn" class="mobile-menu-btn">
+                        <i class="fas fa-bars"></i>
+                    </button>
                 </div>
             </div>
         </header>
+
+        <!-- Menú móvil desplegable -->
+        <div id="mobile-menu" class="mobile-menu">
+            <div class="mobile-menu-header">
+                <h3>Menú</h3>
+                <button id="close-mobile-menu" class="close-btn">&times;</button>
+            </div>
+            <div class="mobile-menu-body">
+                <a href="#inicio" class="mobile-menu-item"><i class="fas fa-home"></i> Inicio</a>
+                <a href="#reservar" class="mobile-menu-item client-only"><i class="fas fa-calendar-plus"></i> Reservar</a>
+                <a href="#mis-citas" class="mobile-menu-item client-only"><i class="fas fa-history"></i> Mis Citas</a>
+                <a href="#admin-panel" class="mobile-menu-item admin-only" style="display:none;"><i class="fas fa-clipboard-list"></i> Panel Citas</a>
+                <a href="#admin-users" class="mobile-menu-item admin-only" style="display:none;"><i class="fas fa-user-friends"></i> Usuarios</a>
+            </div>
+        </div>
 
         <div id="client-view">
             <section id="inicio" class="hero">
@@ -179,13 +211,13 @@
                     <div class="hero-content">
                         <div class="hero-text">
                             <h2>Mecánica de Precisión para tu Vehículo</h2>
-                            <p>Con más de 15 años de experiencia, en RNMOTORS nos especializamos en reparación y mantenimiento automotriz de calidad. Utilizamos tecnología de última generación y repuestos originales para garantizar el mejor servicio.</p>
+                            <p>Con más de 15 años de experiencia, en DVMOTORS nos especializamos en reparación y mantenimiento automotriz de calidad. Utilizamos tecnología de última generación y repuestos originales para garantizar el mejor servicio.</p>
                             <p><strong>Horario:</strong> Lunes a Viernes 8:00 AM - 6:00 PM, Sábados 9:00 AM - 2:00 PM</p>
-                            <p><strong>Teléfono:</strong> (555) 123-4567 | <strong>Dirección:</strong> Av. Principal #123, Ciudad</p>
-                            <a href="#reservar" class="btn">Agendar Cita Ahora</a>
+                            <p><strong>Teléfono:</strong> 0989943956 | <strong>Dirección:</strong> unknown</p>
+                            <a href="#reservar" class="btn"><i class="fas fa-calendar-check"></i> Agendar Cita Ahora</a>
                         </div>
                         <div class="hero-image">
-                            <img src="https://images.unsplash.com/photo-1549399542-7e3f8b79c341?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Taller Mecánico RNMOTORS">
+                            <img src="https://images.unsplash.com/photo-1549399542-7e3f8b79c341?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Taller Mecánico DVMOTORS">
                         </div>
                     </div>
                 </div>
@@ -193,35 +225,37 @@
 
             <section id="funcionalidades">
                 <div class="container">
-                    <div class="section-title"><h2>¿Por qué elegir RNMOTORS?</h2></div>
-                    <div class="features-grid-3x2">
-                        <div class="feature-row">
-                            <div class="feature-item-static">
-                                <h3>Diagnóstico Avanzado</h3>
-                                <p>Escaneo electrónico preciso para detectar fallas en segundos.</p>
-                            </div>
-                            <div class="feature-item-static">
-                                <h3>Garantía de Servicio</h3>
-                                <p>Todos nuestros trabajos cuentan con respaldo por escrito.</p>
-                            </div>
-                            <div class="feature-item-static">
-                                <h3>Precios Justos</h3>
-                                <p>Presupuestos transparentes antes de iniciar cualquier labor.</p>
-                            </div>
+                    <div class="section-title"><h2>¿Por qué elegir DVMOTORS?</h2></div>
+                    <div class="features-grid">
+                        <div class="feature-item-static">
+                            <div class="feature-icon"><i class="fas fa-microchip"></i></div>
+                            <h3>Diagnóstico Avanzado</h3>
+                            <p>Escaneo electrónico preciso para detectar fallas en segundos.</p>
                         </div>
-                        <div class="feature-row">
-                            <div class="feature-item-static">
-                                <h3>Atención Personalizada</h3>
-                                <p>Un asesor dedicado te explicará cada detalle de tu vehículo.</p>
-                            </div>
-                            <div class="feature-item-static">
-                                <h3>Repuestos de Calidad</h3>
-                                <p>Solo instalamos piezas certificadas por los fabricantes.</p>
-                            </div>
-                            <div class="feature-item-static">
-                                <h3>Historial Digital</h3>
-                                <p>Accede al registro de todos los mantenimientos de tu coche.</p>
-                            </div>
+                        <div class="feature-item-static">
+                            <div class="feature-icon"><i class="fas fa-shield-alt"></i></div>
+                            <h3>Garantía de Servicio</h3>
+                            <p>Todos nuestros trabajos cuentan con respaldo por escrito.</p>
+                        </div>
+                        <div class="feature-item-static">
+                            <div class="feature-icon"><i class="fas fa-hand-holding-usd"></i></div>
+                            <h3>Precios Justos</h3>
+                            <p>Presupuestos transparentes antes de iniciar cualquier labor.</p>
+                        </div>
+                        <div class="feature-item-static">
+                            <div class="feature-icon"><i class="fas fa-user-headset"></i></div>
+                            <h3>Atención Personalizada</h3>
+                            <p>Un asesor dedicado te explicará cada detalle de tu vehículo.</p>
+                        </div>
+                        <div class="feature-item-static">
+                            <div class="feature-icon"><i class="fas fa-cogs"></i></div>
+                            <h3>Repuestos de Calidad</h3>
+                            <p>Solo instalamos piezas certificadas por los fabricantes.</p>
+                        </div>
+                        <div class="feature-item-static">
+                            <div class="feature-icon"><i class="fas fa-file-alt"></i></div>
+                            <h3>Historial Digital</h3>
+                            <p>Accede al registro de todos los mantenimientos de tu coche.</p>
                         </div>
                     </div>
                 </div>
@@ -232,33 +266,31 @@
                     <div class="section-title"><h2>Agendar mi Cita</h2></div>
                     <div class="form-table-container">
                         <form id="reservation-form">
-                            <table class="appointment-table">
-                                <tr>
-                                    <td><label>Nombre Completo</label></td>
-                                    <td><input type="text" id="res-name" required placeholder=""></td>
-                                </tr>
-                                <tr>
-                                    <td><label>Teléfono</label></td>
-                                    <td><input type="tel" id="res-phone" required placeholder=""></td>
-                                </tr>
-                                <tr>
-                                    <td><label>Correo Electrónico</label></td>
-                                    <td><input type="email" id="res-email" required placeholder=""></td>
-                                </tr>
-                                <tr>
-                                    <td><label>Fecha Preferida</label></td>
-                                    <td><input type="date" id="res-date" required></td>
-                                </tr>
-                                <tr>
-                                    <td><label>Descripción del Problema</label></td>
-                                    <td><textarea id="res-desc" rows="3" placeholder=""></textarea></td>
-                                </tr>
-                                <tr>
-                                    <td colspan="2" style="text-align: center; padding-top: 20px;">
-                                        <button type="submit" class="btn btn-accent" style="padding: 12px 40px; font-size: 1.1rem;">Enviar Solicitud de Cita</button>
-                                    </td>
-                                </tr>
-                            </table>
+                            <div class="appointment-form">
+                                <div class="form-group">
+                                    <label><i class="fas fa-user"></i> Nombre Completo</label>
+                                    <input type="text" id="res-name" required>
+                                </div>
+                                <div class="form-group">
+                                    <label><i class="fas fa-phone"></i> Teléfono</label>
+                                    <input type="tel" id="res-phone" required>
+                                </div>
+                                <div class="form-group">
+                                    <label><i class="fas fa-envelope"></i> Correo Electrónico</label>
+                                    <input type="email" id="res-email" required>
+                                </div>
+                                <div class="form-group">
+                                    <label><i class="fas fa-calendar-day"></i> Fecha Preferida</label>
+                                    <input type="date" id="res-date" required>
+                                </div>
+                                <div class="form-group">
+                                    <label><i class="fas fa-tools"></i> Descripción del Problema</label>
+                                    <textarea id="res-desc" rows="3" required></textarea>
+                                </div>
+                                <button type="submit" class="btn btn-accent">
+                                    <i class="fas fa-paper-plane"></i> Enviar Solicitud de Cita
+                                </button>
+                            </div>
                         </form>
                     </div>
                 </div>
@@ -268,19 +300,21 @@
                 <div class="container">
                     <div class="section-title"><h2>Mis Citas Realizadas</h2></div>
                     <div class="table-container">
-                        <table class="user-appointments-table">
-                            <thead>
-                                <tr>
-                                    <th>Fecha</th>
-                                    <th>Vehículo</th>
-                                    <th>Descripción</th>
-                                    <th>Estado</th>
-                                </tr>
-                            </thead>
-                            <tbody id="user-appointments-list">
-                                <!-- Las citas se cargarán aquí dinámicamente -->
-                            </tbody>
-                        </table>
+                        <div class="responsive-table">
+                            <table class="user-appointments-table">
+                                <thead>
+                                    <tr>
+                                        <th>Fecha</th>
+                                        <th>Vehículo</th>
+                                        <th>Descripción</th>
+                                        <th>Estado</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="user-appointments-list">
+                                    <!-- Las citas se cargarán aquí dinámicamente -->
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
                 </div>
             </section>
@@ -289,46 +323,82 @@
         <div id="admin-view" style="display:none;">
             <section id="admin-panel">
                 <div class="container">
-                    <div class="section-title"><h2>Panel de Administración de Citas</h2></div>
+                    <div class="admin-header">
+                        <div class="admin-stats">
+                            <div class="stat-card">
+                                <div class="stat-icon"><i class="fas fa-clock"></i></div>
+                                <div class="stat-info">
+                                    <h3 id="pending-count">0</h3>
+                                    <p>Pendientes</p>
+                                </div>
+                            </div>
+                            <div class="stat-card">
+                                <div class="stat-icon"><i class="fas fa-check-circle"></i></div>
+                                <div class="stat-info">
+                                    <h3 id="confirmed-count">0</h3>
+                                    <p>Confirmadas</p>
+                                </div>
+                            </div>
+                            <div class="stat-card">
+                                <div class="stat-icon"><i class="fas fa-times-circle"></i></div>
+                                <div class="stat-info">
+                                    <h3 id="rejected-count">0</h3>
+                                    <p>Rechazadas</p>
+                                </div>
+                            </div>
+                            <div class="stat-card">
+                                <div class="stat-icon"><i class="fas fa-calendar-alt"></i></div>
+                                <div class="stat-info">
+                                    <h3 id="total-count">0</h3>
+                                    <p>Total Citas</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="section-title"><h2><i class="fas fa-clipboard-list"></i> Panel de Administración de Citas</h2></div>
                     <div class="table-container">
-                        <table class="admin-table">
-                            <thead>
-                                <tr>
-                                    <th>Cliente</th>
-                                    <th>Vehículo</th>
-                                    <th>Contacto</th>
-                                    <th>Fecha</th>
-                                    <th>Descripción</th>
-                                    <th>Estado</th>
-                                    <th>Acciones</th>
-                                </tr>
-                            </thead>
-                            <tbody id="admin-appointments-table">
-                                <!-- Las citas se cargarán aquí dinámicamente -->
-                            </tbody>
-                        </table>
+                        <div class="responsive-table">
+                            <table class="admin-table">
+                                <thead>
+                                    <tr>
+                                        <th>Cliente</th>
+                                        <th>Vehículo</th>
+                                        <th>Contacto</th>
+                                        <th>Fecha</th>
+                                        <th>Descripción</th>
+                                        <th>Estado</th>
+                                        <th>Acciones</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="admin-appointments-table">
+                                    <!-- Las citas se cargarán aquí dinámicamente -->
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
                 </div>
             </section>
 
             <section id="admin-users" class="admin-only">
                 <div class="container">
-                    <div class="section-title"><h2>Gestión de Usuarios</h2></div>
+                    <div class="section-title"><h2><i class="fas fa-user-friends"></i> Gestión de Usuarios</h2></div>
                     <div class="table-container">
-                        <table class="admin-table">
-                            <thead>
-                                <tr>
-                                    <th>Nombre</th>
-                                    <th>Correo</th>
-                                    <th>Vehículo</th>
-                                    <th>Fecha Registro</th>
-                                    <th>Acciones</th>
-                                </tr>
-                            </thead>
-                            <tbody id="admin-users-table">
-                                <!-- Los usuarios se cargarán aquí dinámicamente -->
-                            </tbody>
-                        </table>
+                        <div class="responsive-table">
+                            <table class="admin-table">
+                                <thead>
+                                    <tr>
+                                        <th>Usuario</th>
+                                        <th>Correo</th>
+                                        <th>Vehículo</th>
+                                        <th>Fecha Registro</th>
+                                        <th>Acciones</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="admin-users-table">
+                                    <!-- Los usuarios se cargarán aquí dinámicamente -->
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
                 </div>
             </section>
@@ -336,11 +406,14 @@
 
         <footer>
             <div class="container">
-                <p>&copy; 2025 RNMOTORS - Todos los derechos reservados.</p>
+                <p>&copy; 2025 DVMOTORS - Todos los derechos reservados.</p>
+                <p style="font-size: 0.8rem; opacity: 0.6; margin-top: 5px;">Datos guardados localmente en tu navegador</p>
             </div>
         </footer>
     </div>
 
+    <!-- Review Modal (se insertará dinámicamente) -->
+    
     <script src="script.js"></script>
 </body>
 </html>
