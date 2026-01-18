@@ -86,7 +86,6 @@ function getDefaultMechanics() {
         }
     ];
 }
-
 function initializeData() {
     const data = loadCloudData();
     
