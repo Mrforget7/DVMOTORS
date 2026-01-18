@@ -63,26 +63,28 @@ function getDefaultMechanics() {
             id: 1, 
             name: "Roberto Silva", 
             age: 42, 
-            photo: "https://images.unsplash.com/photo-1560250097-0b93528c311a?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80", 
+            photo: "https://images.unsplash.com/photo-1610647752706-3bb12232b3ab?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80", 
             rating: 4.8, 
             voters: 24, 
             totalPoints: 115, 
             reviews: [
                 { user: "María García", date: "2025-01-15", text: "Excelente servicio, muy profesional." },
                 { user: "Carlos López", date: "2025-01-10", text: "Resolvió mi problema rápidamente." }
-            ] 
+            ],
+            specialty: "Motor y Transmisión"
         },
         { 
             id: 2, 
             name: "Ana Martínez", 
             age: 35, 
-            photo: "https://images.unsplash.com/photo-1582750433449-648ed127bb54?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80", 
+            photo: "https://images.unsplash.com/photo-1605126151225-67c6ac94dc82?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80", 
             rating: 4.9, 
             voters: 18, 
             totalPoints: 88, 
             reviews: [
                 { user: "Juan Pérez", date: "2025-01-12", text: "Muy detallista y cuidadosa con el vehículo." }
-            ] 
+            ],
+            specialty: "Sistema Eléctrico"
         }
     ];
 }
@@ -673,11 +675,12 @@ function renderMechanics() {
         card.innerHTML = `
             <div class="mech-card-header">
                 <img src="${photoSrc}" class="mech-photo-img" 
-                     onerror="this.src='https://ui-avatars.com/api/?name=${encodeURIComponent(m.name)}&background=ff5722&color=fff&size=70'">
+                     onerror="this.src='https://ui-avatars.com/api/?name=${encodeURIComponent(m.name)}&background=ff5722&color=fff&size=70'"
+                     alt="Foto de ${m.name}">
                 <div class="mech-info">
                     <h4>${m.name}</h4>
                     <p><i class="fas fa-birthday-cake"></i> ${m.age} años</p>
-                    <span class="mech-role">Mecánico Especializado</span>
+                    <p><i class="fas fa-wrench"></i> ${m.specialty || 'Mecánica General'}</p>
                     <div class="stars-display">
                         ${"★".repeat(Math.floor(m.rating))}${"☆".repeat(5-Math.floor(m.rating))} 
                         <span class="rating-number">${m.rating.toFixed(1)} (${m.voters})</span>
@@ -745,7 +748,8 @@ function addNewMechanic() {
             rating: 5,
             voters: 1,
             totalPoints: 5,
-            reviews: []
+            reviews: [],
+            specialty: "Mecánica General"
         };
         data.mechanics.push(nuevoM);
         saveCloudData(data);
