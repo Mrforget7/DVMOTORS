@@ -359,18 +359,6 @@ header {
     border-radius: 50%; 
     object-fit: cover; 
     border: 3px solid var(--accent);
-    background-color: #f5f7fa;
-}
-
-.mech-photo-img[src=""],
-.mech-photo-img:not([src]) {
-    background: linear-gradient(135deg, var(--secondary), var(--accent));
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: white;
-    font-size: 1.5rem;
-    font-weight: bold;
 }
 
 .mech-info {
@@ -389,17 +377,6 @@ header {
     font-size: 0.9rem;
 }
 
-.mech-role {
-    display: inline-block;
-    background: var(--accent);
-    color: white;
-    padding: 3px 8px;
-    border-radius: 12px;
-    font-size: 0.7rem;
-    font-weight: bold;
-    margin-top: 5px;
-}
-
 .stars-display { 
     color: #f1c40f; 
     font-size: 1.2rem; 
@@ -415,27 +392,14 @@ header {
 }
 
 .reviews-section {
-    background: #f9f9f9;
-    border-radius: 8px;
-    padding: 12px;
     margin-top: 15px;
-}
-
-body.dark-mode .reviews-section {
-    background-color: #2a2a2a;
+    padding-top: 15px;
+    border-top: 1px solid #eee;
 }
 
 .review-item {
-    background: white;
-    border-radius: 6px;
-    padding: 10px;
-    margin-bottom: 8px;
-    border-left: 3px solid var(--secondary);
-}
-
-body.dark-mode .review-item {
-    background-color: #333;
-    border-left-color: #555;
+    padding: 10px 0;
+    border-bottom: 1px solid #f0f0f0;
 }
 
 .review-item:last-child {
