@@ -61,14 +61,28 @@ function getDefaultMechanics() {
     return [
         { 
             id: 1, 
-            name: "David Vallejo", 
-            age: 18, 
-            photo: "",  // En blanco
-            rating: 5.0, 
-            voters: 1, 
-            totalPoints: 5, 
-            reviews: [],
-            specialty: "Mecánica General"
+            name: "Roberto Silva", 
+            age: 42, 
+            photo: "", 
+            rating: 4.8, 
+            voters: 24, 
+            totalPoints: 115, 
+            reviews: [
+                { user: "María García", date: "2026-01-15", text: "Excelente servicio, muy profesional." },
+                { user: "Carlos López", date: "2026-01-10", text: "Resolvió mi problema rápidamente." }
+            ] 
+        },
+        { 
+            id: 2, 
+            name: "Pedro Martínez", 
+            age: 35, 
+            photo: "", 
+            rating: 4.9, 
+            voters: 18, 
+            totalPoints: 88, 
+            reviews: [
+                { user: "Juan Pérez", date: "2026-01-12", text: "Muy detallista y cuidadosa con el vehículo." }
+            ] 
         }
     ];
 }
@@ -652,19 +666,14 @@ function renderMechanics() {
     }
 
     data.mechanics.forEach(m => {
-        const photoSrc = m.photo || `https://ui-avatars.com/api/?name=${encodeURIComponent(m.name)}&background=ff5722&color=fff&size=70`;
-        
         const card = document.createElement('div');
         card.className = 'mech-card';
         card.innerHTML = `
             <div class="mech-card-header">
-                <img src="${photoSrc}" class="mech-photo-img" 
-                     onerror="this.src='https://ui-avatars.com/api/?name=${encodeURIComponent(m.name)}&background=ff5722&color=fff&size=70'"
-                     alt="Foto de ${m.name}">
+                <img src="${m.photo}" class="mech-photo-img" onerror="this.src='https://ui-avatars.com/api/?name=${encodeURIComponent(m.name)}&background=ff5722&color=fff&size=70'">
                 <div class="mech-info">
                     <h4>${m.name}</h4>
                     <p><i class="fas fa-birthday-cake"></i> ${m.age} años</p>
-                    <p><i class="fas fa-wrench"></i> ${m.specialty || 'Mecánica General'}</p>
                     <div class="stars-display">
                         ${"★".repeat(Math.floor(m.rating))}${"☆".repeat(5-Math.floor(m.rating))} 
                         <span class="rating-number">${m.rating.toFixed(1)} (${m.voters})</span>
@@ -732,8 +741,7 @@ function addNewMechanic() {
             rating: 5,
             voters: 1,
             totalPoints: 5,
-            reviews: [],
-            specialty: "Mecánica General"
+            reviews: []
         };
         data.mechanics.push(nuevoM);
         saveCloudData(data);
